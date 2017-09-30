@@ -4,6 +4,7 @@ import Actor from './Actor';
 export default function DancingFloor({ actors, handleClick, centerIndex, saveNode }) {
   const actorsDom = actors.map((actor, index) =>
     (<Actor
+      key={actor.fileName}
       isCenter={index === centerIndex}
       saveNode={saveNode}
       actor={actor}
