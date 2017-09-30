@@ -1,6 +1,6 @@
 import React from 'react';
-import ControllerUnit from './ControllerUnit';
-import ImageFigure from './ImageFigure';
+import ControlPanel from './ControlPanel';
+import DancingFloor from './DancingFloor';
 import * as store from '../store';
 
 require('../style/App.scss');
@@ -10,6 +10,7 @@ export default class Stage extends React.Component {
     super(props);
     this.inverse = this.inverse.bind(this);
     this.actorClick = this.actorClick.bind(this);
+    this.saveNode = this.saveNode.bind(this);
     this.state = {
       actors: store.imagesData,
       centerIndex: 0,
@@ -27,7 +28,9 @@ export default class Stage extends React.Component {
       actors: store.imagesData,
     });
   }
-
+  saveNode(node) {
+    this.actor0 = node;
+  }
   inverse(index) {
     const imgsArrangeArr = this.state.imgsArrangeArr;
     imgsArrangeArr[index].isInverse = !imgsArrangeArr[index].isInverse;
@@ -39,7 +42,12 @@ export default class Stage extends React.Component {
     if (e.target.className.includes('clickable')) {
       e.stopPropagation();
       const index = Number(e.target.id);
-      store.disperse(index);
+      // 如果该图片是居中的，那么翻转，否则，移动到中间
+      if (index === this.state.centerIndex) {
+        store.inverse(index);
+      } else {
+        store.disperse(index);
+      }
       this.setState({
         actor: store.imagesData,
         centerIndex: Number(index),
@@ -47,18 +55,19 @@ export default class Stage extends React.Component {
     }
   }
   render() {
-    const actorsDom = this.state.actors.map((actor, index) =>
-      <ImageFigure
-        isCenter={index === this.state.centerIndex}
-        saveNode={node => this.actor0 = node}
-        actor={actor}
-        seq={index}
-      />);
     return (
-      <main className="stage" ref={main => this.stage = main}>
-        <div role="presentation" className="img-sec" onClick={this.actorClick}>
-          {actorsDom}
-        </div>
+      <main className="stage" ref={(main) => { this.stage = main; }}>
+        <DancingFloor
+          actors={this.state.actors}
+          handleClick={this.actorClick}
+          centerIndex={this.state.centerIndex}
+          saveNode={this.saveNode}
+        />
+        <ControlPanel
+          actors={this.state.actors}
+          handleClick={this.actorClick}
+          centerIndex={this.state.centerIndex}
+        />
       </main>
     );
   }
