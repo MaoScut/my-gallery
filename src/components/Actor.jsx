@@ -8,7 +8,7 @@ export default function Actor({ actor, saveNode, seq, isCenter }) {
     transform: isCenter ? null : `rotateZ(${actor.rotateZ}deg)`,
     zIndex: isCenter ? 100 : 0,
   };
-  const className = `actor clickable ${actor.isInverse ? 'is-inverse' : null}`;
+  const className = `actor clickable ${actor.isInverse ? 'is-inverse' : ''}`;
   return (
     <div className={className} style={style} ref={saveNode} id={seq}>
       <figure className="clickable" id={seq}>
