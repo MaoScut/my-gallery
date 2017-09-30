@@ -4,6 +4,7 @@ imagesData.forEach((img) => {
   img.imageURL = '/images/' + img.fileName;
   // 初始化，每个actor都在左上角
   img.rotateZ = 0;
+  img.isInverse = false;
   img.position = {
     left: 0,
     top: 0,
@@ -41,12 +42,14 @@ const actorSize = {
 };
 // 固定是第一张图片是中心
 function disperse(centerIndex) {
+  // const imagesDataCopy = imagesData.slice();
   imagesData.forEach((actor, index) => {
     // 如果是0到stage.height的话，下面的图片会只有一个角
     if (index === centerIndex) {
       actor.position.top = (stageSize.height - actorSize.height) / 2;
       actor.position.left = (stageSize.width - actorSize.width) / 2;
       actor.rotateZ = 0;
+      actor.isInverse = false;
     } else {
       const verticalBound = {
         start: -actorSize.height / 2,
@@ -68,8 +71,15 @@ function disperse(centerIndex) {
       actor.position.left = left;
       actor.position.top = top;
       actor.rotateZ = get30DegRandom();
+      actor.isInverse = false;
     }
   });
+  return imagesData;
+}
+function inverse(index) {
+  // 有个问题，现在把某张居中的图片反转了，那点击其他图片的时候，这张图片仍然是反转的
+  // 这不是我想要的，在发散方法中加入isInverse属性的设置
+  imagesData[index].isInverse = !imagesData[index].isInverse;
   return imagesData;
 }
 function setStageSize(width, height) {
@@ -85,4 +95,5 @@ export {
   imagesData,
   setActorSize,
   setStageSize,
+  inverse,
 };
