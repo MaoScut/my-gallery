@@ -100,9 +100,10 @@ nav{
   .big{
     transform: scale(1);  
     background-color: black;
+    &.is-inverse{
+      transform: rotateY(180deg);
+      background-color: #555;
+    }  
+  
   }
-  .is-inverse{
-    transform: rotateY(180deg);
-    background-color: #555;
-  }  
 }
