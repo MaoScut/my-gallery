@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export default function Actor({ actor, saveNode, seq, isCenter }) {
   const style = {
@@ -23,3 +24,19 @@ export default function Actor({ actor, saveNode, seq, isCenter }) {
     </div>
   );
 }
+Actor.propTypes = {
+  seq: PropTypes.number.isRequired,
+  actor: PropTypes.shape({
+    fileName: PropTypes.string,
+    desc: PropTypes.string,
+    title: PropTypes.string,
+    imgURL: PropTypes.string,
+    isInverse: PropTypes.bool,
+    position: PropTypes.shape({
+      left: PropTypes.number,
+      top: PropTypes.number,
+    }),
+  }).isRequired,
+  isCenter: PropTypes.bool.isRequired,
+  saveNode: PropTypes.func.isRequired,
+};
