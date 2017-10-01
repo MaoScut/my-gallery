@@ -23,10 +23,8 @@ export default class Stage extends React.Component {
     const aWidth = this.actor0.clientWidth;
     store.setStageSize(sWidth, sHeight);
     store.setActorSize(aWidth, aHeight);
+    store.addListener(this.setState.bind(this));
     store.disperse(0);
-    this.setState({
-      actors: store.imagesData,
-    });
   }
   saveNode(node) {
     this.actor0 = node;

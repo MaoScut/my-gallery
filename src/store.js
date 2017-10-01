@@ -1,7 +1,19 @@
 const imagesData = require('./data/imagesData.json');
 
+let cIndex = 0;
+let callback = null;
+function emitChange() {
+  callback({
+    actors: imagesData,
+    centerIndex: cIndex,
+  });
+}
+function addListener(cb) {
+  callback = cb;
+}
+
 imagesData.forEach((img) => {
-  img.imageURL = '/images/' + img.fileName;
+  img.imageURL = `/images/${img.fileName}`;
   // 初始化，每个actor都在左上角
   img.rotateZ = 0;
   img.isInverse = false;
@@ -13,7 +25,7 @@ imagesData.forEach((img) => {
 
 // 返回区间内的随机数，左闭右开
 function getRangeRandom(low, high) {
-  return Math.ceil(Math.random() * (high - low) + low);
+  return Math.ceil((Math.random() * (high - low)) + low);
 }
 function getHollowRandom(horizontalBound, verticalBound, horizontalHollow, verticalHollow) {
   let left = getRangeRandom(horizontalBound.start, horizontalBound.end);
@@ -42,9 +54,8 @@ const actorSize = {
 };
 // 固定是第一张图片是中心
 function disperse(centerIndex) {
-  // const imagesDataCopy = imagesData.slice();
+  cIndex = centerIndex;
   imagesData.forEach((actor, index) => {
-    // 如果是0到stage.height的话，下面的图片会只有一个角
     if (index === centerIndex) {
       actor.position.top = (stageSize.height - actorSize.height) / 2;
       actor.position.left = (stageSize.width - actorSize.width) / 2;
@@ -67,20 +78,27 @@ function disperse(centerIndex) {
         start: (stageSize.width / 2) - (1.5 * actorSize.width),
         end: (stageSize.width / 2) + (actorSize.width / 2),
       };
-      const [left, top] = getHollowRandom(horizontalBound, verticalBound, horizontalHollow, verticalHollow);
+      const [left, top] = getHollowRandom(
+        horizontalBound,
+        verticalBound,
+        horizontalHollow,
+        verticalHollow,
+      );
       actor.position.left = left;
       actor.position.top = top;
       actor.rotateZ = get30DegRandom();
       actor.isInverse = false;
     }
   });
+  emitChange();
   return imagesData;
 }
 function inverse(index) {
   // 有个问题，现在把某张居中的图片反转了，那点击其他图片的时候，这张图片仍然是反转的
   // 这不是我想要的，在发散方法中加入isInverse属性的设置
   imagesData[index].isInverse = !imagesData[index].isInverse;
-  return imagesData;
+  emitChange();
+  // return imagesData;
 }
 function setStageSize(width, height) {
   stageSize.height = height;
@@ -96,4 +114,5 @@ export {
   setActorSize,
   setStageSize,
   inverse,
+  addListener,
 };
