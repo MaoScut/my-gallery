@@ -8,7 +8,6 @@ require('../style/App.scss');
 export default class Stage extends React.Component {
   constructor(props) {
     super(props);
-    this.inverse = this.inverse.bind(this);
     this.actorClick = this.actorClick.bind(this);
     this.saveNode = this.saveNode.bind(this);
     this.state = {
@@ -28,13 +27,6 @@ export default class Stage extends React.Component {
   }
   saveNode(node) {
     this.actor0 = node;
-  }
-  inverse(index) {
-    const imgsArrangeArr = this.state.imgsArrangeArr;
-    imgsArrangeArr[index].isInverse = !imgsArrangeArr[index].isInverse;
-    this.setState({
-      imgsArrangeArr,
-    });
   }
   actorClick(e) {
     if (e.target.className.includes('clickable')) {
