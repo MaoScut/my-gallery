@@ -20,6 +20,7 @@ ControlPanel.propTypes = {
     title: PropTypes.string,
     imgURL: PropTypes.string,
     isInverse: PropTypes.bool,
+    rotateZ: PropTypes.number,
     position: PropTypes.shape({
       left: PropTypes.number,
       top: PropTypes.number,

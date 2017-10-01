@@ -28,7 +28,7 @@ function getHollowRandom(horizontalBound, verticalBound, horizontalHollow, verti
 
 // 返回-30度到30度之间的随机数
 function get30DegRandom() {
-  return ((Math.random() > 0.5 ? '' : '-') + Math.ceil(Math.random() * 30));
+  return getRangeRandom(-30, 30);
 }
 // 舞台尺寸
 const stageSize = {
