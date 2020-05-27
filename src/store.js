@@ -13,7 +13,7 @@ function addListener(cb) {
 }
 
 imagesData.forEach((img) => {
-  img.imageURL = `/images/${img.fileName}`;
+  img.imgURL = `/images/${img.fileName}`;
   // 初始化，每个actor都在左上角
   img.rotateZ = 0;
   img.isInverse = false;

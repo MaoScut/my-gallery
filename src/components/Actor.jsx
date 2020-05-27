@@ -13,7 +13,7 @@ export default function Actor({ actor, saveNode, seq, isCenter }) {
   return (
     <div className={className} style={style} ref={saveNode} id={seq}>
       <figure className="clickable" id={seq}>
-        <img className="clickable" id={seq} src={actor.imageURL} alt="" />
+        <img className="clickable" id={seq} src={actor.imgURL} alt="" />
         <figcaption className="clickable" value={seq}>
           {actor.title}
         </figcaption>
